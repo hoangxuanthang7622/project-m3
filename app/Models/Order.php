@@ -19,7 +19,12 @@ class Order extends Model
     public function scopeSearch($query)
     {
         if ($key = request()->key) {
-            $query = $query->where('name', 'like', '%' . $key . '%');
+            $query = $query->join('customers','customers.id','=','orders.customer_id')
+            ->select('*')
+           ->where('customers.name', 'like', '%' . $key . '%')
+           ->orWhere('customers.phone', 'like', '%' . $key . '%')
+           ->orWhere('customers.email', 'like', '%' . $key . '%')
+           ->orWhere('customers.address', 'like', '%' . $key . '%');
         }
         return $query;
     }

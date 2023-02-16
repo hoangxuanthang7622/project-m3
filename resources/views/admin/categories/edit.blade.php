@@ -8,6 +8,9 @@
             <div class="mb-3">
                 <label class="form-label">Tên thể loại</label>
                 <input type="text" id="fname" name="name" value='{{ $categories->name }}' class="form-control">
+                @error('name')
+                    <div style="color: red">{{$message}}</div>
+                @enderror
             </div>
             <input type="submit" value="Cập nhật" class="btn btn-primary">
             <a href="{{ route('category.index') }}" class="btn btn-danger">Huỷ</a>

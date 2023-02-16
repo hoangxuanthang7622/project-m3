@@ -5,7 +5,7 @@
             <img src="{{asset('assets/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
           </div>
           <div>
-            <h4 class="logo-text">Skodash</h4>
+            <h4 class="logo-text">Thắng Store</h4>
           </div>
           <div class="toggle-icon ms-auto"><i class="bi bi-chevron-double-left"></i>
           </div>
@@ -22,7 +22,7 @@
           </li>
           <li>
             <a href="javascript:;" class="has-arrow">
-              <div class="parent-icon"><i class="bi bi-grid"></i>
+              <div class="parent-icon"><i class="bi bi-list-ul"></i>
               </div>
               <div class="menu-title">Quản lí thể loại</div>
             </a>
@@ -48,7 +48,7 @@
           </li>
           <li>
             <a href="javascript:;" class="has-arrow">
-              <div class="parent-icon"><i class="bi bi-grid"></i>
+              <div class="parent-icon"><i class="bi bi-telephone-inbound"></i>
               </div>
               <div class="menu-title">Quản lí khách hàng</div>
             </a>
@@ -56,6 +56,39 @@
               <li> <a href="{{route('customer.index')}}"><i class="bi bi-arrow-right-short"></i>Khách hàng</a>
               </li>
 
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:;" class="has-arrow">
+              <div class="parent-icon"><i class="bi bi-bell"></i>
+              </div>
+              <div class="menu-title">Quản lí đơn hàng</div>
+            </a>
+            <ul>
+              <li> <a href="{{route('order.index')}}"><i class="bi bi-arrow-right-short"></i>Đơn hàng</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:;" class="has-arrow">
+              <div class="parent-icon"><i class="bi bi-person-circle"></i>
+              </div>
+              <div class="menu-title">Quản lí nhân sự</div>
+            </a>
+            <ul>
+              <li> <a href="{{route('user.index')}}"><i class="bi bi-arrow-right-short"></i>Nhân viên</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:;" class="has-arrow">
+              <div class="parent-icon"><i class="bi bi-share"></i>
+              </div>
+              <div class="menu-title">Quản lí chức vụ</div>
+            </a>
+            <ul>
+              <li> <a href="{{route('group.index')}}"><i class="bi bi-arrow-right-short"></i>Chức vụ</a>
+              </li>
             </ul>
           </li>
 

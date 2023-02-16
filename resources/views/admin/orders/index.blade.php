@@ -35,9 +35,9 @@
             <td>{{$item->date_at}}</td>
             <td>{{number_format($item->total)}}</td>
             <td>
-                {{-- @if (Auth::user()->hasPermission('Order_view')) --}}
+                @if (Auth::user()->hasPermission('Order_view'))
                 <a  class="btn btn-info" href="{{route('order.detail',$item->id)}}">Chi tiết</a>
-                {{-- @endif --}}
+                @endif
             </td>
           </tr>
           @endforeach

@@ -4,7 +4,9 @@
     <main class="page-content">
         <h2>Sản phẩm</h2>
         <hr>
+        @if(Auth::user()->hasPermission('Product_create'))
         <a href="{{ route('product.create') }}" class="btn btn-success">Thêm sản phẩm</a>
+        @endif
         <table class="table">
             <form>
                 <a class="btn btn-sm btn-icon btn-warning" type="button" name="key" value="{{ $f_key }}" data-bs-toggle="modal" data-bs-target="#basicModal">Tìm kiếm</a>

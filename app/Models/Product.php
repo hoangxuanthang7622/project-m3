@@ -13,4 +13,16 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+    public function scopeSearch($query)
+    {
+        if ($key = request()->key) {
+            $query = $query->join('categories','categories.id','=','products.category_id')
+            ->select('*')
+           ->where('products.name', 'like', '%' . $key . '%')
+           ->orWhere('products.category_id', 'like', '%' . $key . '%')
+           ->orWhere('products.price', 'like', '%' . $key . '%')
+           ->orWhere('products.quantity', 'like', '%' . $key . '%');
+        }
+        return $query;
+    }
 }

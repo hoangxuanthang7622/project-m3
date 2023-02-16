@@ -12,4 +12,11 @@ class Category extends Model
     public function products(){
         return $this->hasMany(Product::class, 'category_id', 'id');
     }
+    public function scopeSearch($query)
+    {
+        if ($key = request()->key) {
+            $query = $query->where('name', 'like', '%' . $key . '%');
+        }
+        return $query;
+    }
 }

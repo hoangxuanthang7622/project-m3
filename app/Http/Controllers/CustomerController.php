@@ -14,8 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        // $this->authorize('viewAny', Customer::class);
-        $items=Customer::paginate(5);
+        $this->authorize('viewAny', Customer::class);
+        $items=Customer::search()->paginate(5);
         return view('admin.customers.index',compact('items'));
     }
 

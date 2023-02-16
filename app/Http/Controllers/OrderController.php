@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrderExport;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Maatwebsite\Excel\Facades\Excel;
 class OrderController extends Controller
 {
     /**
@@ -15,20 +16,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // $this->authorize('viewAny', Order::class);
-        $items=Order::search()->paginate(5);
+        $this->authorize('viewAny', Order::class);
+        $items=Order::search()->paginate(2);
         return view('admin.orders.index',compact('items'));
     }
     public function detail($id)
     {
-        // $this->authorize('view', Order::class);
+        $this->authorize('view', Order::class);
         $items=DB::table('orderdetail')
         ->join('orders','orderdetail.order_id','=','orders.id')
         ->join('products','orderdetail.product_id','=','products.id')
         ->select('products.*', 'orderdetail.*','orders.id')
         ->where('orders.id','=',$id)->get();
         // dd($items);
-        return view('admin.order.orderdetail',compact('items'));
+        return view('admin.orders.orderdetail',compact('items'));
     }
 
     /**
@@ -96,7 +97,7 @@ class OrderController extends Controller
     {
         //
     }
-    // public function exportOrder(){
-    //     return Excel::download(new OrderExport, 'order.xlsx');
-    // }
+    public function exportOrder(){
+        return Excel::download(new OrderExport, 'order.xlsx');
+    }
 }

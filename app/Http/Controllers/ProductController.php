@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductsRequest;
+use App\Http\Requests\UpdateProductsRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-            $products =Product::all();
+            $products =Product::search()->paginate(5);
         $categories = Category::all();
         $key        = $request->key ?? '';
         $name      = $request->name ?? '';
@@ -142,8 +143,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductsRequest $request, $id)
     {
+
         try {
         $product = Product::find($id);
         $product->name = $request->name;
@@ -152,13 +154,14 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->description = $request->description;
         $file = $request->inputFile;
-            if ($request->hasFile('image')) {
-                $fileExtension = $file->getClientOriginalName();
-                //Lưu file vào thư mục storage/app/public/image với tên mới
-                $request->file('image')->storeAs('public/images', $fileExtension);
-                // Gán trường image của đối tượng task với tên mới
-                $product->image = $fileExtension;
-            }
+        if ($request->hasFile('inputFile')) {
+            $fileExtension = $file->getClientOriginalName();
+            //Lưu file vào thư mục storage/app/public/image với tên mới
+            $request->file('inputFile')->storeAs('public/images', $fileExtension);
+            // Gán trường image của đối tượng task với tên mới
+            $product->image = $fileExtension;
+
+        }
             $product->save();
             alert()->success('Cập nhật','thành công');
             return redirect()->route('product.index');
@@ -197,7 +200,7 @@ class ProductController extends Controller
         return view('admin.products.trash', $param);
     }
     public  function softdeletes($id){
-        // $this->authorize('delete', Category::class);
+        $this->authorize('delete', Category::class);
         date_default_timezone_set("Asia/Ho_Chi_Minh");
         $products = Product::findOrFail($id);
         $products->deleted_at = date("Y-m-d h:i:s");
@@ -211,7 +214,7 @@ class ProductController extends Controller
         return redirect()->route('product.index');
     }
     public function restoredelete($id){
-        // $this->authorize('restore',Category::class);
+        $this->authorize('restore',Category::class);
         $products=Product::withTrashed()->where('id', $id);
         $products->restore();
         // $notification = [

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoriesRequest;
+use App\Http\Requests\UpdateCategoriesRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(2);
+        $categories = Category::search()->paginate(5);
         $param = [
             'categories' => $categories
         ];
@@ -40,6 +41,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoriesRequest $request)
     {
+
         try {
             $category = new Category();
             $category->name = $request->name;
@@ -49,7 +51,6 @@ class CategoryController extends Controller
         } catch (\Throwable $th) {
             alert()->error('Thêm danh mục','Thất bại');
             return redirect()->route('category.index');
-
         }
 
     }
@@ -87,7 +88,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoriesRequest $request, $id)
     {
         try {
             $category = new Category();
@@ -129,27 +130,21 @@ class CategoryController extends Controller
         return view('admin.categories.trash', $param);
     }
     public  function softdeletes($id){
-        // $this->authorize('delete', Category::class);
+        $this->authorize('delete', Category::class);
         date_default_timezone_set("Asia/Ho_Chi_Minh");
         $category = Category::findOrFail($id);
         $category->deleted_at = date("Y-m-d h:i:s");
-        // $notification = [
-        //     'message' => 'Đã chuyển vào kho lưu!',
-        //     'alert-type' => 'success'
-        // ];
+
         $category->save();
         alert()->success('Đã chuyển vào kho lưu trữ','thành công');
 
         return redirect()->route('category.index');
     }
     public function restoredelete($id){
-        // $this->authorize('restore',Category::class);
+        $this->authorize('restore',Category::class);
         $categories=Category::withTrashed()->where('id', $id);
         $categories->restore();
-        // $notification = [
-        //         'message' => 'Khôi phục thành công!',
-        //          'alert-type' => 'success'
-        //     ];
+
         alert()->success('Khôi phục ','thành công');
 
         return redirect()->route('category.trash');

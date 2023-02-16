@@ -21,4 +21,16 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
+    public function scopeSearch($query)
+    {
+        if ($key = request()->key) {
+            $query = $query->join('orders','customers.id','=','orders.customer_id')
+            ->select('*')
+           ->where('customers.name', 'like', '%' . $key . '%')
+           ->orWhere('customers.phone', 'like', '%' . $key . '%')
+           ->orWhere('customers.email', 'like', '%' . $key . '%')
+           ->orWhere('customers.address', 'like', '%' . $key . '%');
+        }
+        return $query;
+    }
 }

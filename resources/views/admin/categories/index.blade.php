@@ -4,7 +4,9 @@
     <main class="page-content">
         <h2>Thể loại</h2>
         <hr>
+        @if(Auth::user()->hasPermission('Category_create'))
         <a href="{{ route('category.create') }}" class="btn btn-success">Thêm Thể Loại</a>
+        @endif
         <table class="table">
         <thead>
                 <tr>
