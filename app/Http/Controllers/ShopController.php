@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
 {
@@ -16,9 +19,11 @@ class ShopController extends Controller
     public function index()
     {
         // dd(1);
+        $cart = session()->get('cart', []);
         $items = Category::with('products')->get();
         $products =Product::with('category')->get();
         $param = [
+            'cart' => $cart,
             'products' => $products,
             'items' => $items
         ];
@@ -65,8 +70,13 @@ class ShopController extends Controller
     }
     public function checkout()
     {
-
-        return view('shop.layouts.checkout');
+        $items = Category::with('products')->get();
+        $cart = session()->get('cart', []);
+        $param = [
+            'items' => $items,
+            'cart' => $cart
+        ];
+        return view('shop.layouts.checkout',$param);
 
     }
     public function cart()
@@ -117,10 +127,64 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function register()
     {
-        //
+        return view('shop.layouts.register');
     }
+    public function checkregister(Request $request)
+    {
+        // dd(1);
+
+        $customer = new Customer();
+        $customer->name = $request->name;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
+        $customer->email = $request->email;
+        $customer->password = bcrypt($request->password);
+        try {
+            $customer->save();
+            return redirect()->route('viewlogin');
+        } catch (\Exception $e) {
+            Log::error("message:".$e->getMessage());
+        }
+
+            if ($request->password == $request->confirmpassword) {
+                $customer->save();
+                return redirect()->route('shop.login');
+            }else{
+                return redirect()->route('shop.register');
+
+            }
+    }
+    public function login()
+    {
+        return view('shop.layouts.login');
+    }
+    public function checklogin(Request $request)
+    {
+        $arr = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        if (Auth::guard('customers')->attempt($arr)) {
+            return redirect()->route('shop.index');
+        } else {
+            return redirect()->route('shop.login');
+        }
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('shop.index');
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.

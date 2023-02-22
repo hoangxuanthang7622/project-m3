@@ -103,4 +103,9 @@ Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkou
 Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
 Route::get('/addToCart/{id}', [ShopController::class, 'addtocart'])->name('shop.addToCart');
 Route::get('/remove-cart/{id}', [ShopController::class, 'removeCart'])->name('shop.remove11');
+Route::get('/login', [ShopController::class, 'login'])->name('shop.login');
+Route::post('/checklogin', [ShopController::class, 'checklogin'])->name('shop.checklogin');
+Route::get('/register', [ShopController::class, 'register'])->name('shop.register');
+Route::post('/checkregister', [ShopController::class, 'checkregister'])->name('shop.checkregister');
+Route:: ('/logout', [ShopController::class, 'logout'])->name('shop.logout');
 });

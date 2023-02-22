@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body style="line-height:1">
     <!-- ##### Header Area Start ##### -->
     @include('shop.layouts.header')
     <!-- ##### Header Area End ##### -->
@@ -33,7 +33,7 @@
         <!-- Cart Button -->
         <div class="cart-button">
             <a href="#" id="rightSideCart"><img src="{{ asset('shop/img/core-img/bag.svg') }}" alt="">
-                <span>3</span></a>
+                <span>{{count($cart)}}</span></a>
         </div>
         @php
         $total = 0;
@@ -76,7 +76,7 @@
                     <li><span>Phí vận chuyển:</span> <span>Miễn phí</span></li>
                     <li><span>Giảm giá:</span> <span>-10%</span></li>
                     @php
-                    $tong = $totalAll * (30/100);
+                    $tong = $totalAll * (10/100);
                     $totalAll -= $tong;
                     @endphp
                     <li><span>Tổng thanh toán:</span> <span>{{ number_format($totalAll) }}.vnd</span></li>
