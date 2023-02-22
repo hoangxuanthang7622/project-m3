@@ -82,6 +82,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
+        try {
         $product = new Product();
         $product->name = $request->name;
         $product->category_id = $request->category_id;
@@ -99,7 +100,11 @@ class ProductController extends Controller
 
         }
         $product->save();
+        alert()->success('Thêm','thành công');
         return redirect()->route('product.index');
+    } catch (\Throwable $th) {
+        alert()->error('Thêm','thất bại');
+    }
     }
 
     /**

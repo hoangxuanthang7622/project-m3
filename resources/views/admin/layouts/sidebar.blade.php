@@ -5,7 +5,7 @@
             <img src="{{asset('assets/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
           </div>
           <div>
-            <h4 class="logo-text">Thắng Store</h4>
+            <img src="{{asset('shop/img/core-img/c.png')}}" style="width:130px" alt="">
           </div>
           <div class="toggle-icon ms-auto"><i class="bi bi-chevron-double-left"></i>
           </div>

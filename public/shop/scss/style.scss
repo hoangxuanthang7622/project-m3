@@ -61,7 +61,7 @@ a {
     @include transition(all 500ms ease 0s);
     text-decoration: none;
     outline: 0 solid transparent;
-    color: $dark-color;
+
     font-weight: 600;
     font-size: 12px;
     &:hover,

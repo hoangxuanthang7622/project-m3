@@ -23,6 +23,9 @@ class Product extends Model
            ->orWhere('products.price', 'like', '%' . $key . '%')
            ->orWhere('products.quantity', 'like', '%' . $key . '%');
         }
+        if ($key1 = request()->key1) {
+            $query = $query->where('name', 'like', '%' . $key1 . '%');
+        }
         return $query;
     }
 }

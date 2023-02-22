@@ -6,6 +6,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // đáng nhập admin
+
 Route::get('/login', [UserController::class, 'viewLogin'])->name('login');
 Route::post('handdle-login', [UserController::class, 'login'])->name('handdle-login');
 //ngăn chặn
@@ -51,6 +53,8 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/trash', [ProductController::class, 'trash'])->name('product.trash');
     Route::get('/restoredelete/{id}', [ProductController::class, 'restoredelete'])->name('product.restoredelete');
 });
+
+
 //khách hàng
 Route::prefix('customer')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customer.index');
@@ -88,4 +92,15 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/adminpass/{id}', [UserController::class, 'adminpass'])->name('user.adminpass');
     Route::put('/adminUpdatePass/{id}', [UserController::class, 'adminUpdatePass'])->name('user.adminUpdatePass');
 });
+});
+//shop
+Route::prefix('shop')->group(function () {
+Route::get('/dashboard', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/products', [ShopController::class, 'products'])->name('productall');
+Route::get('/category/{id}', [ShopController::class, 'detail'])->name('detail');
+Route::get('/show/{id}', [ShopController::class, 'show'])->name('shop.show');
+Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
+Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
+Route::get('/addToCart/{id}', [ShopController::class, 'addtocart'])->name('shop.addToCart');
+Route::get('/remove-cart/{id}', [ShopController::class, 'removeCart'])->name('shop.remove11');
 });
