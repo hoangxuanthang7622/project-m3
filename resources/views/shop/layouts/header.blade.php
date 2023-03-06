@@ -69,13 +69,13 @@
             <!-- Cart Area -->
             <div class="cart-area">
                 <a href="#" id="essenceCartBtn"><img src="{{ asset('shop/img/core-img/bag.svg') }}"
-                        alt=""> <span>{{ count($cart) }}</span></a>
+                        alt=""> <span>{{$cart && count($cart) }}</span></a>
             </div>
 
             <div class="user-login-info">
                 <a href="#"><img src="{{ asset('shop/img/core-img/user.svg') }}" alt=""></a>
             </div>
-            <div class="cn-col-4">
+            <div >
                 @if (isset(Auth()->guard('customers')->user()->name))
                     {{ Auth()->guard('customers')->user()->name }}
                     <form method="POST" action="{{ route('shop.logout') }}">

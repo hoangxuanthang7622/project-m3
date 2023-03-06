@@ -82,7 +82,8 @@
                     <li><span>Tổng thanh toán:</span> <span>{{ number_format($totalAll) }}.vnd</span></li>
                 </ul>
                 <div class="checkout-btn mt-100">
-                    <a href="checkout.html" class="btn essence-btn">Thanh toán</a>
+
+                    <a href="{{route('shop.checkout')}}" class="btn essence-btn" >Thanh toán</a>
                 </div>
             </div>
         </div>

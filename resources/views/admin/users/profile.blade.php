@@ -41,10 +41,10 @@
                     <hr>
                 </div>
                 <div class="text-center">
-                    <a class="btn mini btn-default" href="#">
+                    <a class="btn mini btn-default" href="{{ route('user.editpass', Auth::user()->id) }}">
                         <i class="fa fa-cog"> Mật Khẩu </i>
                     </a>
-                    <a class="btn mini btn-default" href="#">
+                    <a class="btn mini btn-default" href="{{ route('user.adminpass', $user->id) }}">
                         <i class="fa fa-cog">Mật khẩu*</i>
                     </a>
                 </div>

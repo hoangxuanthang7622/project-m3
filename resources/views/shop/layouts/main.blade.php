@@ -1,5 +1,6 @@
 @extends('shop.mastershop')
 @section('contentShop')
+@include('sweetalert::alert')
 <section class="welcome_area bg-img background-overlay" style="background-image: url(img/bg-img/bg-02.jpg);">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -55,7 +56,7 @@
                             <img class="hover-img" src="{{ asset('storage/images/' . $product->image) }}">
                             <!-- Favourite -->
                             <div class="product-favourite">
-                                <a href="#" class="favme fa fa-heart"></a>
+                                <a href="{{route('shop.show', $product->id)}}" class="fa fa-eye"></a>
                             </div>
                         </div>
                         <!-- Product Description -->

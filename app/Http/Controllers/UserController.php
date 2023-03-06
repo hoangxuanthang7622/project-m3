@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -59,7 +60,7 @@ class UserController extends Controller
     public function store(StoreUsersRequest $request)
     {
         try {
-            alert()->success('Đăng kí nhân viên' , 'Thành công');
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -86,17 +87,17 @@ class UserController extends Controller
             'name' => $request->name,
             'pass' => $request->password,
         ];
-        // Mail::send('admin.mail.mail', compact('data'), function ($email) use($request) {
-        //     $email->subject('NowSaiGon');
-        //     $email->to($request->email, $request->name);
-        // });
+        Mail::send('admin.emails.user', compact('data'), function ($email) use($user) {
+            $email->subject('Xmen-Store');
+            $email->to($user->email, $user->name);
+        });
 
-
+        alert()->success('Đăng kí nhân viên' , 'Thành công');
         return redirect()->route('user.index');
     } catch (\Throwable $th) {
+
         alert()->error('Đăng kí nhân viên','Thất bại');
         return redirect()->route('user.index');
-
     }
     }
 

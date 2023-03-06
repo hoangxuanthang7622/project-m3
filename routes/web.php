@@ -107,5 +107,6 @@ Route::get('/login', [ShopController::class, 'login'])->name('shop.login');
 Route::post('/checklogin', [ShopController::class, 'checklogin'])->name('shop.checklogin');
 Route::get('/register', [ShopController::class, 'register'])->name('shop.register');
 Route::post('/checkregister', [ShopController::class, 'checkregister'])->name('shop.checkregister');
-Route:: ('/logout', [ShopController::class, 'logout'])->name('shop.logout');
+Route::post('/logout', [ShopController::class, 'logout'])->name('shop.logout');
+Route::post('/order', [ShopController::class, 'order'])->name('shop.order');
 });

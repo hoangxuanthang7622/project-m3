@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Orderdetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
@@ -31,6 +34,7 @@ class ShopController extends Controller
     }
     public function products()
     {
+
         $items = Category::with('products')->get();
         // dd($items);
         $products = Product::search()->get();
@@ -70,13 +74,13 @@ class ShopController extends Controller
     }
     public function checkout()
     {
-        $items = Category::with('products')->get();
-        $cart = session()->get('cart', []);
-        $param = [
-            'items' => $items,
-            'cart' => $cart
-        ];
-        return view('shop.layouts.checkout',$param);
+            $items = Category::with('products')->get();
+            $cart = session()->get('cart', []);
+            $param = [
+                'items' => $items,
+                'cart' => $cart
+            ];
+            return view('shop.layouts.checkout',$param);
 
     }
     public function cart()
@@ -183,6 +187,50 @@ class ShopController extends Controller
         return redirect()->route('shop.index');
     }
 
+    public function order(Request $request)
+    {
+        try{
+
+            $id = Auth::guard('customers')->user()->id;
+            $data = Customer::find($id);
+            $data->address = $request->address;
+            $data->email = $request->email;
+            $data->phone = $request->phone;
+
+            $data->save();
+
+
+            $order = new Order();
+            $order->customer_id = Auth::guard('customers')->user()->id;
+            $order->date_at = date('Y-m-d H:i:s');
+            $order->total = $request->total;
+            $order->save();
+
+                $count_product = count($request->product_id);
+                for ($i = 0; $i < $count_product; $i++) {
+                    $orderItem = new Orderdetail();
+                    $orderItem->order_id =  $order->id;
+                    $orderItem->product_id = $request->product_id[$i];
+                    $orderItem->quantity = $request->quantity[$i];
+                    $orderItem->total = $request->total[$i];
+                    $orderItem->save();
+                    session()->forget('cart');
+                    DB::table('products')
+                        ->where('id', '=', $orderItem->product_id)
+                        ->decrement('quantity', $orderItem->quantity);
+                }
+            alert()->success('Đặt hàng','thành công');
+            return redirect()->route('shop.index');
+
+        }
+        catch(\Throwable $th){
+            alert()->error('Đặt hàng','thất bại');
+
+            return redirect()->route('shop.index');
+        }
+
+    }
+
 
 
 
@@ -235,4 +283,5 @@ class ShopController extends Controller
     {
         //
     }
+    
 }
