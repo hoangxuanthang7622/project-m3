@@ -67,11 +67,11 @@ class CustomerPolicy
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user)
-    {
-       return $user->hasPermission('Customer_delete');
-       //
-    }
+    // public function delete(User $user)
+    // {
+    //    return $user->hasPermission('Customer_delete');
+    //    //
+    // }
 
     /**
      * Determine whether the user can restore the model.
@@ -80,11 +80,11 @@ class CustomerPolicy
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user)
-    {
-       return $user->hasPermission('Customer_restore');
-       //
-    }
+    // public function restore(User $user)
+    // {
+    //    return $user->hasPermission('Customer_restore');
+    //    //
+    // }
 
     /**
      * Determine whether the user can permanently delete the model.
@@ -93,9 +93,9 @@ class CustomerPolicy
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user)
-    {
-       return $user->hasPermission('Customer_forceDelete');
-       //
-    }
+    // public function forceDelete(User $user)
+    // {
+    //    return $user->hasPermission('Customer_forceDelete');
+    //    //
+    // }
 }

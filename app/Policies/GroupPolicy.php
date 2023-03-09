@@ -80,11 +80,11 @@ class GroupPolicy
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user)
-    {
-       return $user->hasPermission('Group_restore');
-       //
-    }
+    // public function restore(User $user)
+    // {
+    //    return $user->hasPermission('Group_restore');
+    //    //
+    // }
 
     /**
      * Determine whether the user can permanently delete the model.
@@ -93,9 +93,9 @@ class GroupPolicy
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user)
-    {
-       return $user->hasPermission('Group_forceDelete');
-       //
-    }
+    // public function forceDelete(User $user)
+    // {
+    //    return $user->hasPermission('Group_forceDelete');
+    //    //
+    // }
 }

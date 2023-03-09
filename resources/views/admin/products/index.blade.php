@@ -33,17 +33,23 @@
                     <td>{{ $product->quantity }}</td>
                     <td> <img src="{{ asset('storage/images/' . $product->image) }}"  style="width:100px;"></td>
                     <td>
+                        @if (Auth::user()->hasPermission('Product_update'))
                         <a href="{{ route('product.edit', $product->id) }}"class="btn btn-sm btn-icon btn btn-outline-warning "><i
                                     class="bi bi-pencil"></i>
+                        @endif
                         </a>
+                        @if (Auth::user()->hasPermission('Product_view'))
                         <a href="{{ route('product.show', $product->id) }}"
                             class="btn btn-sm btn-icon btn btn-outline-info"><i class="bi bi-eye-fill"></i></a>
+                        @endif
                         <form
+                        @if (Auth::user()->hasPermission('Product_delete'))
                         onclick="return confirm('Bạn có muốn chuyển nó vào kho lưu trữ?')"
                         action="{{ route('product.softdeletes', $product->id) }}" style="display:inline"
                         method="post">
                         <button type="submit" class="btn btn-sm btn-icon btn btn-outline-danger "><i class="bi bi-trash"></i>
                         </button>
+                        @endif
                         @csrf
                         @method('DELETE')
 

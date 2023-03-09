@@ -128,7 +128,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        // $this->authorize('view', User::class);
+        $this->authorize('view', User::class);
         $user = User::find($id);
         $groups=Group::get();
         $param = [

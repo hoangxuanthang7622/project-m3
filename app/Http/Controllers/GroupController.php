@@ -119,8 +119,6 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        dd(1);
-
         $group = Group::find($id);
         $group->delete();
 

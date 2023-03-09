@@ -22,15 +22,19 @@
                     <td>{{ $category->name }}</td>
 
                     <td>
+                        @if (Auth::user()->hasPermission('Category_update'))
                         <a href="{{ route('category.edit', $category->id) }}"class="btn btn-sm btn-icon btn btn-outline-warning "><i
                                     class="bi bi-pencil "></i>
+                        @endif
                         </a>
                         <form
+                        @if (Auth::user()->hasPermission('Category_delete'))
                                 onclick="return confirm('Bạn có muốn chuyển nó vào kho lưu trữ?')"
                                 action="{{ route('category.softdeletes', $category->id) }}" style="display:inline"
                                 method="post">
                                 <button type="submit" class="btn btn-sm btn-icon btn btn-outline-danger"><i class="bi bi-trash"></i>
                                 </button>
+                        @endif
                                 @csrf
                                 @method('DELETE')
                         </form>

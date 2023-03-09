@@ -79,11 +79,11 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user)
-    {
-       return $user->hasPermission('User_restore');
-       //
-    }
+    // public function restore(User $user)
+    // {
+    //    return $user->hasPermission('User_restore');
+    //    //
+    // }
 
     /**
      * Determine whether the user can permanently delete the model.
@@ -92,11 +92,11 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user)
-    {
-       return $user->hasPermission('User_forceDelete');
-       //
-    }
+    // public function forceDelete(User $user)
+    // {
+    //    return $user->hasPermission('User_forceDelete');
+    //    //
+    // }
     public function adminUpdatePass(User $user)
     {
         return $user->hasPermission('User_adminUpdatePass');

@@ -100,7 +100,7 @@ class ProductPolicy
     }
     public function viewtrash(User $user)
     {
-        return $user->hasPermission('Category_viewtrash');
+        return $user->hasPermission('Product_viewtrash');
         //
     }
 }

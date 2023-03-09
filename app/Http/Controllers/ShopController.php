@@ -149,7 +149,8 @@ class ShopController extends Controller
             $customer->save();
             return redirect()->route('viewlogin');
         } catch (\Exception $e) {
-            Log::error("message:".$e->getMessage());
+            Log::error('message: ' . $e->getMessage() . 'line: ' . $e->getLine() . 'file: ' . $e->getFile());
+
         }
 
             if ($request->password == $request->confirmpassword) {
@@ -223,8 +224,9 @@ class ShopController extends Controller
             return redirect()->route('shop.index');
 
         }
-        catch(\Throwable $th){
+        catch(\Exception $e){
             alert()->error('Đặt hàng','thất bại');
+            Log::error('message: ' . $e->getMessage() . 'line: ' . $e->getLine() . 'file: ' . $e->getFile());
 
             return redirect()->route('shop.index');
         }
@@ -283,5 +285,5 @@ class ShopController extends Controller
     {
         //
     }
-    
+
 }
