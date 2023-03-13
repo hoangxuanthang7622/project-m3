@@ -43,9 +43,9 @@
                 <a href="{{route('shop.addToCart', $productdetail->id)}}" id="{{$productdetail->id}}" class="btn essence-btn">Thêm vào giỏ hàng</a>
 
                 <!-- Favourite -->
-                <div class="product-favourite ml-4">
+                {{-- <div class="product-favourite ml-4">
                     <a href="#" class="favme fa fa-heart"></a>
-                </div>
+                </div> --}}
             </div>
         </form>
     </div>

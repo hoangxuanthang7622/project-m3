@@ -72,7 +72,7 @@ class ProductController extends Controller
             'categories' => $categories
         ];
         return view('admin.products.create', $param);
-    }
+    } 
 
     /**
      * Store a newly created resource in storage.

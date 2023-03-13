@@ -2,7 +2,7 @@
 @section('content')
 <main class="page-content">
 
-        <h1>Thêm sản phẩm</h1>
+        <h1>Chỉnh sửa</h1>
         <form action="{{ route('product.update',$products->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf

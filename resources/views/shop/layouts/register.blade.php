@@ -192,6 +192,8 @@ button:hover {
     }
 }
 </style>
+@include('sweetalert::alert')
+ 
 <div class="overlay">
     <form action="{{route('shop.checkregister')}}" method="post">
         @csrf

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ShopController extends Controller
 {
@@ -24,7 +25,7 @@ class ShopController extends Controller
         // dd(1);
         $cart = session()->get('cart', []);
         $items = Category::with('products')->get();
-        $products =Product::with('category')->get();
+        $products = Product::with('category')->get();
         $param = [
             'cart' => $cart,
             'products' => $products,
@@ -47,7 +48,7 @@ class ShopController extends Controller
         ];
         return view('shop.layouts.product', $param);
     }
-    public function detail(Request $request,$id)
+    public function detail(Request $request, $id)
     {
         $Category = Category::find($id);
         $products = $Category->products;
@@ -74,14 +75,13 @@ class ShopController extends Controller
     }
     public function checkout()
     {
-            $items = Category::with('products')->get();
-            $cart = session()->get('cart', []);
-            $param = [
-                'items' => $items,
-                'cart' => $cart
-            ];
-            return view('shop.layouts.checkout',$param);
-
+        $items = Category::with('products')->get();
+        $cart = session()->get('cart', []);
+        $param = [
+            'items' => $items,
+            'cart' => $cart
+        ];
+        return view('shop.layouts.checkout', $param);
     }
     public function cart()
     {
@@ -137,8 +137,6 @@ class ShopController extends Controller
     }
     public function checkregister(Request $request)
     {
-        // dd(1);
-
         $customer = new Customer();
         $customer->name = $request->name;
         $customer->phone = $request->phone;
@@ -150,16 +148,17 @@ class ShopController extends Controller
             return redirect()->route('viewlogin');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . 'line: ' . $e->getLine() . 'file: ' . $e->getFile());
-
         }
 
-            if ($request->password == $request->confirmpassword) {
-                $customer->save();
-                return redirect()->route('shop.login');
-            }else{
-                return redirect()->route('shop.register');
+        if ($request->password == $request->confirmpassword) {
+            $customer->save();
+            alert()->success('Đăng kí tài khoản', 'Thành công');
+            return redirect()->route('shop.login');
+        } else {
+            alert()->error('Đăng kí tài khoản', 'Thất bại');
 
-            }
+            return redirect()->route('shop.register');
+        }
     }
     public function login()
     {
@@ -172,6 +171,8 @@ class ShopController extends Controller
             'password' => $request->password
         ];
         if (Auth::guard('customers')->attempt($arr)) {
+            alert()->success('Đăng nhập thành công', 'Thành công');
+
             return redirect()->route('shop.index');
         } else {
             return redirect()->route('shop.login');
@@ -190,7 +191,7 @@ class ShopController extends Controller
 
     public function order(Request $request)
     {
-        try{
+        try {
 
             $id = Auth::guard('customers')->user()->id;
             $data = Customer::find($id);
@@ -207,30 +208,30 @@ class ShopController extends Controller
             $order->total = $request->total;
             $order->save();
 
-                $count_product = count($request->product_id);
-                for ($i = 0; $i < $count_product; $i++) {
-                    $orderItem = new Orderdetail();
-                    $orderItem->order_id =  $order->id;
-                    $orderItem->product_id = $request->product_id[$i];
-                    $orderItem->quantity = $request->quantity[$i];
-                    $orderItem->total = $request->total[$i];
-                    $orderItem->save();
-                    session()->forget('cart');
-                    DB::table('products')
-                        ->where('id', '=', $orderItem->product_id)
-                        ->decrement('quantity', $orderItem->quantity);
-                }
-            alert()->success('Đặt hàng','thành công');
+            $count_product = count($request->product_id);
+            for ($i = 0; $i < $count_product; $i++) {
+                $orderItem = new Orderdetail();
+                $orderItem->order_id =  $order->id;
+                $orderItem->product_id = $request->product_id[$i];
+                $orderItem->quantity = $request->quantity[$i];
+                $orderItem->total = $request->total[$i];
+                $orderItem->save();
+                session()->forget('cart');
+                DB::table('products')
+                    ->where('id', '=', $orderItem->product_id)
+                    ->decrement('quantity', $orderItem->quantity);
+            }
+            alert()->success('Đặt hàng', 'thành công');
             return redirect()->route('shop.index');
-
-        }
-        catch(\Exception $e){
-            alert()->error('Đặt hàng','thất bại');
+        } catch (\Exception $e) {
+            alert()->error('Đặt hàng', 'thất bại');
             Log::error('message: ' . $e->getMessage() . 'line: ' . $e->getLine() . 'file: ' . $e->getFile());
-
+            Mail::send('mail.mail', compact('data'), function ($email) use ($request) {
+                $email->subject('Xmen-Store');
+                $email->to($request->email, $request->name);
+            });
             return redirect()->route('shop.index');
         }
-
     }
 
 
@@ -285,5 +286,4 @@ class ShopController extends Controller
     {
         //
     }
-
 }

@@ -24,7 +24,7 @@ class StoreProductsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:products|min:3',
+            'name' => 'required|min:3',
             'category_id' => 'required',
             'price' => 'required',
             'description' => 'required',
@@ -37,7 +37,6 @@ class StoreProductsRequest extends FormRequest
     {
         return  [
                 'name.required' => 'Vui lòng không được để trống',
-                'name.unique'   => 'Vui lòng không được trùng dữ liệu',
                 'name.min'      => 'Vui lòng nhập trên :min kí tự',
                 'description.required' => 'Vui lòng không được để trống',
                 'price.required' => 'Vui lòng không được để trống',
