@@ -24,10 +24,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [UserController::class, 'viewLogin'])->name('login');
 Route::post('handdle-login', [UserController::class, 'login'])->name('handdle-login');
+//lấy lại mk
+Route::get('forget-password', [UserController::class, 'forgetpass'])->name('forgetpass');
+Route::post('/email', [UserController::class, 'quenmatkhauadmin'])->name('quenmatkhauadmin');
 //ngăn chặn
 Route::middleware(['auth' , 'prevent-back-history'])->group(function(){
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/',[HomeController::class, 'index'])->name('home');
+
 //thể loại
 Route::group(['prefix' => 'categories'],function(){
     Route::get('/',[CategoryController::class, 'index'])->name('category.index');

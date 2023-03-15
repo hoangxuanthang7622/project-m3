@@ -171,24 +171,15 @@
      </div>
      <div class="noi-dung">
          <div class="form">
-             <h2>Trang Đăng Nhập</h2>
-             <form method="POST" action="{{route('handdle-login')}}">
+             <form method="POST" action="{{route('quenmatkhauadmin')}}">
                  @csrf
-
                  <div class="input-form">
                      <span>Email</span>
-                     <input type="text" name="email">
+                     <input type="text" name="email" placeholder="Vui lòng nhập email để lấy lại mật khẩu...">
                  </div>
-                 <div class="input-form">
-                     <span>Password</span>
-                     <input type="password" name="password">
-                 </div>
-
-                 <div class="input-form">
-                     <input type="submit" value="Đăng Nhập">
-                 </div>
+                 <input type="submit">gửi
              </form>
-                <a href="{{route('forgetpass')}}">Quên mật khẩu</a>
+
          </div>
      </div>
  </section>

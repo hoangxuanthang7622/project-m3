@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Str;
 use App\Http\Requests\StoreUsersRequest;
 use App\Http\Requests\UpdateUsersRequest;
 use App\Models\Group;
@@ -312,5 +312,28 @@ class UserController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
     return redirect()->route('login');
+  }
+  public function forgetpass()
+  {
+      return view('auth.forgetpass');
+  }
+  public function quenmatkhauadmin(Request $request)
+  {
+      $customer = User::where('email', $request->email)->first();
+      if ($customer) {
+          $pass = Str::random(6);
+          $customer->password = bcrypt($pass);
+          $customer->save();
+          $data = [
+              'name' => $customer->name,
+              'pass' => $pass,
+              'email' => $customer->email,
+          ];
+          Mail::send('admin.emails.password', compact('data'), function ($email) use ($customer) {
+              $email->subject('Xmen-Store');
+              $email->to($customer->email, $customer->name);
+          });
+      }
+      return redirect()->route('login');
   }
 }
